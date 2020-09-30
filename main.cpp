@@ -76,8 +76,13 @@ int count_occurrence(string text, string word) {
 }
 
 //** This function counts the positive words
-void count_positives(string text, vector<string> positive_words) {
+int count_positives(string text, vector<string> positive_words) {
     // here i want to count the number of positive words.
+    int count = 0;
+    for (auto word : positive_words) {
+        count += count_occurrence(text, word);
+    }
+    return count;
 }
 
 //** This function shows the best day
