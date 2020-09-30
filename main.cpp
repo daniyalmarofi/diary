@@ -8,7 +8,6 @@ using namespace std;
 struct note {
     string date;
     string text;
-    int positives;
 };
 
 //** This function gets the other part of note and concatenates with the first
@@ -86,10 +85,12 @@ int count_positives(string text, vector<string> positive_words) {
 }
 
 //** This function shows the best day
-void show_the_best_day(vector<note> notes) {
+void show_the_best_day(vector<note> notes, vector<string> positive_words) {
     note best = notes[0];
     for (auto note : notes) {
-        if (best.positives < note.positives) best = note;
+        if (count_positives(best.text, positive_words) <
+            count_positives(note.text, positive_words))
+            best = note;
     }
     show_summary(best);
 }
@@ -110,7 +111,6 @@ void add_note(vector<note>& notes, string today, string userinput) {
         note temp;
         temp.date = today;
         temp.text = text;
-        temp.positives = 0;
         notes.push_back(temp);
     }
 }
@@ -129,7 +129,7 @@ int main() {
         } else if (!userinput.compare("show_the_longest_day")) {
             show_the_longest_day(notes);
         } else if (!userinput.compare("show_the_best_day")) {
-            show_the_best_day(notes);
+            show_the_best_day(notes, positive_words);
         } else {
             add_note(notes, today, userinput);
         }
