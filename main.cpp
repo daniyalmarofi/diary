@@ -65,8 +65,10 @@ int count_occurrence(string text, string word) {
     int offset = text.find(word);
     while (offset != string::npos) {
         if ((offset + word.length() == text.length() ||
-             text[offset + word.length()] == ' ') &&
-            (offset == 0 || (offset > 0 && text[offset - 1] == ' ')))
+             text[offset + word.length()] == ' ' ||
+             text[offset + word.length()] == '\n') &&
+            (offset == 0 || (offset > 0 && text[offset - 1] == ' ') ||
+             (offset > 0 && text[offset - 1] == '\n')))
             occurrence++;
         offset = text.find(word, offset + word.length());
     }
@@ -91,12 +93,21 @@ void show_the_best_day(vector<note> notes) {
 void add_note(vector<note>& notes, string today, string userinput) {
     // user wants to add a new note so we push back the note to the
     // notes vector
+    bool flag = true;
     string text = get_note_text(userinput);
-    note temp;
-    temp.date = today;
-    temp.text = text;
-    temp.positives = 0;
-    notes.push_back(temp);
+    for (auto note : notes) {
+        if (!note.date.compare(today)) {
+            note.text = note.text + '\n' + text;
+            flag = false;
+        }
+    }
+    if (flag) {
+        note temp;
+        temp.date = today;
+        temp.text = text;
+        temp.positives = 0;
+        notes.push_back(temp);
+    }
 }
 
 int main() {
@@ -104,7 +115,6 @@ int main() {
     string today = "";
     vector<note> notes;
     vector<string> positive_words = read_positive_words();
-
 
     while (cin >> userinput) {
         if (!userinput.compare("start_day")) {
