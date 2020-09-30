@@ -48,14 +48,20 @@ void show_the_longest_day(vector<note> notes) {
     show_summary(longest);
 }
 
-//** This function counts the positive words
-void count_positives(string text) {
+//** This function reads the positive words
+vector<string> read_positive_words() {
     vector<string> positive_words;
     ifstream fin;
     fin.open("positive-words.txt");
     string temp;
     while (fin >> temp) positive_words.push_back(temp);
     fin.close();
+    return positive_words;
+}
+
+//** This function counts the positive words
+void count_positives(string text, vector<string> positive_words) {
+    // here i want to count the number of positive words.
 }
 
 //** This function shows the best day
@@ -83,8 +89,7 @@ int main() {
     string userinput;
     string today = "";
     vector<note> notes;
-
-    count_positives(today);
+    vector<string> positive_words = read_positive_words();
 
     while (cin >> userinput) {
         if (!userinput.compare("start_day")) {
