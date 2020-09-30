@@ -11,10 +11,19 @@ struct note {
 
 //** this function gets the other part of note and concatenates with the first
 // part of note
-string get_note(string user_input) {
+string get_note_text(string user_input) {
     string temp;
     getline(cin, temp);
     return user_input + temp;
+}
+
+//** This function shows the  notes of a day
+void show_day(vector<note> notes) {
+    string date;
+    // get the date that user wants to see
+    cin >> date;
+    for (auto note : notes)
+        if (!note.date.compare(date)) cout << note.text << endl;
 }
 
 //** this function shows the summary of a note.
@@ -28,6 +37,26 @@ void show_summary(note note) {
     }
 }
 
+//** This function shows the longest day
+void show_the_longest_day(vector<note> notes) {
+    note longest = notes[0];
+    for (auto note : notes) {
+        if (longest.text.length() < note.text.length()) longest = note;
+    }
+    show_summary(longest);
+}
+
+//** This function adds a new note to the vector
+void add_note(vector<note>& notes, string today, string userinput) {
+    // user wants to add a new note so we push back the note to the
+    // notes vector
+    string text = get_note_text(userinput);
+    note temp;
+    temp.date = today;
+    temp.text = text;
+    notes.push_back(temp);
+}
+
 int main() {
     string userinput;
     string today = "";
@@ -35,23 +64,13 @@ int main() {
 
     while (cin >> userinput) {
         if (!userinput.compare("start_day")) {
-            char temp;
-            // get today
             cin >> today;
         } else if (!userinput.compare("show_day")) {
-            string date;
-            // get the date that user wants to see
-            cin >> date;
-            for (auto note : notes)
-                if (!note.date.compare(date)) cout << note.text << endl;
+            show_day(notes);
+        } else if (!userinput.compare("show_the_longest_day")) {
+            show_the_longest_day(notes);
         } else {
-            // user wants to add a new note so we push back the note to the
-            // notes vector
-            string text = get_note(userinput);
-            note temp;
-            temp.date = today;
-            temp.text = text;
-            notes.push_back(temp);
+            add_note(notes, today, userinput);
         }
     }
 
