@@ -11,7 +11,7 @@ struct note {
     int positives;
 };
 
-//** this function gets the other part of note and concatenates with the first
+//** This function gets the other part of note and concatenates with the first
 // part of note
 string get_note_text(string user_input) {
     string temp;
@@ -28,7 +28,7 @@ void show_day(vector<note> notes) {
         if (!note.date.compare(date)) cout << note.text << endl;
 }
 
-//** this function shows the summary of a note.
+//** This function shows the summary of a note.
 void show_summary(note note) {
     cout << note.date << endl;
     if (note.text.length() < 20)
@@ -57,6 +57,20 @@ vector<string> read_positive_words() {
     while (fin >> temp) positive_words.push_back(temp);
     fin.close();
     return positive_words;
+}
+
+//** This function counts the number of occurrence of a word in a text
+int count_occurrence(string text, string word) {
+    int occurrence = 0;
+    int offset = text.find(word);
+    while (offset != string::npos) {
+        if ((offset + word.length() == text.length() ||
+             text[offset + word.length()] == ' ') &&
+            (offset == 0 || (offset > 0 && text[offset - 1] == ' ')))
+            occurrence++;
+        offset = text.find(word, offset + word.length());
+    }
+    return occurrence;
 }
 
 //** This function counts the positive words
@@ -90,6 +104,7 @@ int main() {
     string today = "";
     vector<note> notes;
     vector<string> positive_words = read_positive_words();
+
 
     while (cin >> userinput) {
         if (!userinput.compare("start_day")) {
