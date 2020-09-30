@@ -9,6 +9,7 @@ struct note {
     string text;
 };
 
+//** this function gets the other part of note and concatenates with the first part of note
 string get_note(string user_input) {
     string temp;
     getline(cin, temp);
@@ -26,6 +27,7 @@ int main() {
             // get today
             cin >> today;
         } else {
+            // user wants to add a new note so we push back the note to the notes vector
             string text = get_note(userinput);
             note temp;
             temp.date = today;
