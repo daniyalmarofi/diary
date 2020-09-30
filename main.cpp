@@ -9,7 +9,8 @@ struct note {
     string text;
 };
 
-//** this function gets the other part of note and concatenates with the first part of note
+//** this function gets the other part of note and concatenates with the first
+//part of note
 string get_note(string user_input) {
     string temp;
     getline(cin, temp);
@@ -26,8 +27,17 @@ int main() {
             char temp;
             // get today
             cin >> today;
+        } else if (!userinput.compare("show_day")) {
+            string date;
+            // get the date that user wants to see
+            cin >> date;
+            for (auto note : notes) {
+                if(!note.date.compare(date))
+                    cout<<note.text<<endl;
+            }
         } else {
-            // user wants to add a new note so we push back the note to the notes vector
+            // user wants to add a new note so we push back the note to the
+            // notes vector
             string text = get_note(userinput);
             note temp;
             temp.date = today;
