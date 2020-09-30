@@ -2,4 +2,5 @@
 A simple Diary!
 
 # TODO
-- [] 
+
+- [ ] 
