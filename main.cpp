@@ -1,5 +1,5 @@
-#include <fstream>
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -10,12 +10,31 @@ struct note {
     string text;
 };
 
-//** This function gets the other part of note and concatenates with the first
-// part of note
+//** This function gets the other part of note and concatenates with the first part of note
 string get_note_text(string user_input) {
     string temp;
     getline(cin, temp);
     return user_input + temp;
+}
+
+//** This function adds a new note to the vector
+void add_note(vector<note>& notes, string today, string userinput) {
+    // user wants to add a new note so we push back the note to the
+    // notes vector
+    bool flag = false;
+    string text = get_note_text(userinput);
+    for (auto note : notes) {
+        if (!note.date.compare(today)) {
+            text = note.text + "\n" + text;
+            flag = true;
+        }
+    }
+    if (flag) notes.pop_back();
+
+    note temp;
+    temp.date = today;
+    temp.text = text;
+    notes.push_back(temp);
 }
 
 //** This function shows the  notes of a day
@@ -93,26 +112,6 @@ void show_the_best_day(vector<note> notes, vector<string> positive_words) {
             best = note;
     }
     show_summary(best);
-}
-
-//** This function adds a new note to the vector
-void add_note(vector<note>& notes, string today, string userinput) {
-    // user wants to add a new note so we push back the note to the
-    // notes vector
-    bool flag = false;
-    string text = get_note_text(userinput);
-    for (auto note : notes) {
-        if (!note.date.compare(today)) {
-            text = note.text + "\n" + text;
-            flag = true;
-        }
-    }
-    if (flag) notes.pop_back();
-
-    note temp;
-    temp.date = today;
-    temp.text = text;
-    notes.push_back(temp);
 }
 
 int main() {
