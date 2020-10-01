@@ -99,20 +99,20 @@ void show_the_best_day(vector<note> notes, vector<string> positive_words) {
 void add_note(vector<note>& notes, string today, string userinput) {
     // user wants to add a new note so we push back the note to the
     // notes vector
-    bool flag = true;
+    bool flag = false;
     string text = get_note_text(userinput);
     for (auto note : notes) {
         if (!note.date.compare(today)) {
-            note.text = note.text + '\n' + text;
-            flag = false;
+            text = note.text + "\n" + text;
+            flag = true;
         }
     }
-    if (flag) {
-        note temp;
-        temp.date = today;
-        temp.text = text;
-        notes.push_back(temp);
-    }
+    if (flag) notes.pop_back();
+
+    note temp;
+    temp.date = today;
+    temp.text = text;
+    notes.push_back(temp);
 }
 
 int main() {
